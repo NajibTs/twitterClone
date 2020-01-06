@@ -7,7 +7,7 @@
         <div id="root"></div>
     </div>
 
-            <div class="col-md-6" style="background-color:white;padding:10px;margin-top:-24px;">
+            <div class="col-md-6" style="background-color:#00acee;padding:10px;margin-top:-24px;">
                 <div class="row">
             
                     <div class="col-md-4">
