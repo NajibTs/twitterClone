@@ -2,40 +2,42 @@
 
 @section('content')
 <div class="container">
-    
-    <div class="col-md-12">
-        <div id="root"></div>
-    </div>
 
-            <div class="col-md-6" style="padding:10px;margin-top:-24px;">
-                <div class="row">
-            
-                    <div class="col-md-4">
-                        <h4 class="text-primary">{{ Auth::user()->username }}</h4>
-                        <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->username }}" height="40">
-                    </div>
-            
-                    <div class="col-md-4">
-                        @if(Auth::user()->following->count())<h4>Following</h4>
-                        @foreach($following as $user)
-                            <span><a href="{{ route('users', $user) }}" class="btn btn-sm btn-outline-primary">{{ $user->username }}</a></span>
-                        @endforeach
-                        @endif
-                    </div>
-            
-                    <div class="col-md-4">
-                        @if(Auth::user()->followers->count())<h4>Followers</h4>
-                        @foreach($followers as $user)
-                            <span><a href="{{ route('users', $user) }}" class="btn btn-sm btn-outline-success">{{ $user->username }}</a></span>
-                        @endforeach
-                        @endif
-                    </div>
-                </div>
-            </div>
-            
-            <br>
-<!-- Button trigger modal -->
-{{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+  <div class="col-md-12">
+    <div id="root"></div>
+  </div>
+
+  <div class="col-md-6" style="padding-top:100px;margin-top:-24px;">
+    <div class="row">
+
+      <div class="col-md-4">
+        <h4 class="text-primary">{{ Auth::user()->username }}</h4>
+        <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->username }}" height="40">
+      </div>
+
+      <div class="col-md-4">
+        @if(Auth::user()->following->count())<h4>Following</h4>
+        @foreach($following as $user)
+        <span><a href="{{ route('users', $user) }}"
+            class="btn btn-sm btn-outline-primary">{{ $user->username }}</a></span>
+        @endforeach
+        @endif
+      </div>
+
+      <div class="col-md-4">
+        @if(Auth::user()->followers->count())<h4>Followers</h4>
+        @foreach($followers as $user)
+        <span><a style=color:"red"  href="{{ route('users', $user) }}"
+            class="btn btn-sm">{{ $user->username }}</a></span>
+        @endforeach
+        @endif
+      </div>
+    </div>
+  </div>
+
+  <br>
+  <!-- Button trigger modal -->
+  {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
     Launch demo modal
   </button>
   
@@ -72,6 +74,6 @@
       </div>
     </div>
   </div> --}}
-    
+
 </div>
 @endsection
