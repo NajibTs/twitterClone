@@ -68960,7 +68960,6 @@ function (_Component) {
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.renderPosts = _this.renderPosts.bind(_assertThisInitialized(_this));
-    _this.addComment = _this.addComment.bind(_assertThisInitialized(_this));
     _this.commentChange = _this.commentChange.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -68970,17 +68969,31 @@ function (_Component) {
     value: function getPosts() {
       var _this2 = this;
 
-      // this.setState({ loading: true });
+      // this.setState({  });
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/posts').then(function (response // console.log(response.data.posts)
       ) {
         return _this2.setState({
-          posts: _toConsumableArray(response.data.posts) // loading: false
+          posts: _toConsumableArray(response.data.posts)
+        });
+      });
+    }
+  }, {
+    key: "getcomment",
+    value: function getcomment(id, e) {
+      var _this3 = this;
+
+      e.preventDefault(); // this.setState({ loading: true });
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/comment/".concat(id)).then(function (response // console.log(response.data.posts)
+      ) {
+        return _this3.setState({
+          comments: _toConsumableArray(response.data.comments) // loading: false
 
         });
       });
     } // preventDefault(e) {
     //     return e.preventDefault();
-    // }
+    // }    
 
   }, {
     key: "componentWillMount",
@@ -68990,11 +69003,11 @@ function (_Component) {
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.interval = setInterval(function () {
-        return _this3.getPosts();
-      }, 20000);
+        return _this4.getPosts();
+      }, 200000);
     }
   }, {
     key: "componentWillUnmount",
@@ -69004,18 +69017,19 @@ function (_Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
-      var _this4 = this;
+      var _this5 = this;
 
       e.preventDefault(); // this.postData();
 
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/posts', {
         body: this.state.body
-      }).then(function (response) {
+      } // {headers:{"Content-type":"application/json"}},
+      ).then(function (response) {
         // console
         // console.log('from handle submit', response);
         // set state
-        _this4.setState({
-          posts: [response.data].concat(_toConsumableArray(_this4.state.posts)),
+        _this5.setState({
+          posts: [response.data].concat(_toConsumableArray(_this5.state.posts)),
           body: ''
         });
       }); // clear the state body
@@ -69040,18 +69054,25 @@ function (_Component) {
     }
   }, {
     key: "addComment",
-    value: function addComment(e) {
-      var _this5 = this;
+    value: function addComment(id, e) {
+      var _this6 = this;
 
-      e.preventDefault();
+      e.preventDefault(); // console.log(id)
+
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/comment', {
-        comments: this.state.bodyComment
+        comments: this.state.bodyComment,
+        post_id: id
+      }, {
+        headers: {
+          "Content-type": "application/json"
+        }
       }).then(function (response) {
         // console
         // console.log('from handle submit', response);
         // set state
-        _this5.setState({
-          comments: [response.data].concat(_toConsumableArray(_this5.state.comments))
+        _this6.setState({
+          comments: response.data,
+          bodyComment: ''
         });
       });
       this.setState({
@@ -69061,7 +69082,7 @@ function (_Component) {
   }, {
     key: "renderPosts",
     value: function renderPosts() {
-      var _this6 = this;
+      var _this7 = this;
 
       return this.state.posts.map(function (post) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -69078,10 +69099,11 @@ function (_Component) {
           className: "user"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
           href: "/users/".concat(post.user.username)
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, post.user.username)), ' ', "- ", post.humanCreatedAt), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, post.user.username)), ' ', "- ", post.humanCreatedAt), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, post.body), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          onClick: _this7.getcomment.bind(_this7, post.id),
           "data-toggle": "modal",
           "data-target": '#exampleModalLong' + post.id
-        }, post.body), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, "Comments"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "modal fade",
           id: 'exampleModalLong' + post.id,
           tabIndex: "-1",
@@ -69098,7 +69120,7 @@ function (_Component) {
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
           className: "modal-title",
           id: "exampleModalLabel"
-        }, "New message"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        }, "Tweets"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           type: "button",
           className: "close",
           "data-dismiss": "modal",
@@ -69107,34 +69129,49 @@ function (_Component) {
           "aria-hidden": "true"
         }, "\xD7"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "modal-body"
-        }, post.body, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-          onSubmit: _this6.addComment
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "form-group"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          className: "row"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "media-left"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: post.user.avatar,
+          className: "media-object mr-2"
+        })), ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "user"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+          href: "/users/".concat(post.user.username)
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, post.user.username)), ' ', "- ", post.humanCreatedAt)), post.body, post.id, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
           htmlFor: "recipient-name",
-          className: "col-form-label"
-        }, "Add a comment"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-          onChange: _this6.commentChange,
-          value: _this6.state.bodyComment,
-          name: "comments",
+          className: "bold col-form-label"
+        }, "Add a comment"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+          onSubmit: _this7.addComment.bind(_this7, post.id)
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: " row"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: " col-8 "
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          onChange: _this7.commentChange,
+          value: _this7.state.bodyComment,
           type: "text",
           className: "form-control"
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "form-group"
+          className: "col-4"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          className: "btn btn-primary",
           type: "submit",
-          value: "add comment"
+          value: "Add comment"
         })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "modal-footer"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          type: "button",
-          className: "btn btn-secondary",
-          "data-dismiss": "modal"
-        }, "Close"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          type: "button",
-          className: "btn btn-primary"
-        }, "Send message")))))));
+          className: "form-group"
+        }, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, 'all comments ::'), _this7.state.comments.map(function (comment) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "user"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+            href: "/users/".concat(post.user.username)
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, comment.username)), ' ', "- ", comment.humanCreatedAt), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            key: comment.id - comment.id
+          }, comment.comments));
+        }) // post.comments
+        )))))));
       });
     }
   }, {

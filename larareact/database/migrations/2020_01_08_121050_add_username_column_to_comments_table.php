@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddImagesToPostsTable extends Migration
+class AddUsernameColumnToCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddImagesToPostsTable extends Migration
      */
     public function up()
     {
-        Schema::table('posts', function (Blueprint $table) {
-            $table->string('images')->after('body')->nullable();
+        Schema::table('comments', function (Blueprint $table) {
+            $table->string('username')->after('post_id');
         });
     }
 
@@ -25,8 +25,8 @@ class AddImagesToPostsTable extends Migration
      */
     public function down()
     {
-        Schema::table('posts', function (Blueprint $table) {
-            $table->dropColumn('images');
+        Schema::table('comments', function (Blueprint $table) {
+            $table->dropColumn('username');
         });
     }
 }

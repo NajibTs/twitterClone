@@ -19,6 +19,8 @@ Route::group(['middleware' => ['auth']], function () {
 	
 	Route::post('/posts', 'PostController@create');
 	Route::post('/comment', 'CommentController@store')->name('comment');
+	Route::get('/comment/{id}', 'CommentController@show');		
+			
 
 	Route::get('/users/{user}', 'UserController@index')->name('users');
 	Route::get('/users/{user}/follow', 'UserController@follow')->name('users.follow');
