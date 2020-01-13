@@ -94,7 +94,7 @@ export default class App extends Component {
         });
     }    
     addComment(id,e) {
-        e.preventDefault();
+        // e.preventDefault();
         // console.log(id)
         
         axios
@@ -181,7 +181,8 @@ export default class App extends Component {
                                             </div> 
                                         ))
                                         // post.comments
-                                        }</div>
+                                        }
+                                        </div>
                                         </div>
                                     </div>
                                     </div>
@@ -192,7 +193,7 @@ export default class App extends Component {
     }    
     render() {        
     return (
-<div className="container-fluid">
+<div  className="container-fluid">
                 <div className="row justify-content-center">
                     <div className="col-md-6">
                         <div className="card">

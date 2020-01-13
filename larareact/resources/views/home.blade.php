@@ -7,7 +7,7 @@
     <div id="root"></div>
   </div>
 
-  <div class="col-md-6" style="padding-top:100px;margin-top:-24px;">
+  {{-- <div class="col-md-6" style="padding-top:100px;margin-top:-24px;">
     <div class="row">
 
       <div class="col-md-4">
@@ -22,16 +22,16 @@
             class="btn btn-sm btn-outline-primary">{{ $user->username }}</a></span>
         @endforeach
         @endif
-      </div>
+      </div> --}}
 
-      <div class="col-md-4">
+      {{-- <div class="col-md-4">
         @if(Auth::user()->followers->count())<h4>Followers</h4>
         @foreach($followers as $user)
-        <span><a style=color:"red"  href="{{ route('users', $user) }}"
+        <span><a style="color:green"  href="{{ route('users', $user) }}"
             class="btn btn-sm">{{ $user->username }}</a></span>
         @endforeach
         @endif
-      </div>
+      </div> --}}
     </div>
   </div>
 

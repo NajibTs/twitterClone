@@ -69057,8 +69057,8 @@ function (_Component) {
     value: function addComment(id, e) {
       var _this6 = this;
 
-      e.preventDefault(); // console.log(id)
-
+      // e.preventDefault();
+      // console.log(id)
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/comment', {
         comments: this.state.bodyComment,
         post_id: id
