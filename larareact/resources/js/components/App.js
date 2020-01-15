@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios'
-export default class App extends Component {    
-    constructor(props) {
+export default class App extends Component {    constructor(props) {
         super(props);
         this.state = {
             body: '',
@@ -10,24 +9,23 @@ export default class App extends Component {
             loading: false,
             comments:[],
             bodyComment: '',
-            
+            image: ''
         };
         // bind
-        this.handleSubmit = this.handleSubmit.bind(this);
+        // this.onFormSubmit = this.onFormSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.renderPosts = this.renderPosts.bind(this);
         this.commentChange = this.commentChange.bind(this);
-    }    
-    getPosts() {
-        // this.setState({  });
-        axios.get('/posts')
-        
-        .then((
+        this.imageChange = this.imageChange.bind(this);
+        this.fileUpload = this.fileUpload.bind(this);
+    }    getPosts() {
+        this.setState({ theris: true });
+        axios.get('/posts').then((
             response // console.log(response.data.posts)
         ) =>
             this.setState({
-                posts: [...response.data.posts]
-               
+                posts: [...response.data.posts],
+                theris: false
             })
         );
     }
@@ -48,52 +46,77 @@ export default class App extends Component {
     // }    
     componentWillMount() {
         this.getPosts();
-    }    
-    componentDidMount() {
+    }    componentDidMount() {
         this.interval = setInterval(() => this.getPosts(), 200000);
-    }    
-    componentWillUnmount() {
+    }    componentWillUnmount() {
         clearInterval(this.interval);
-    }  
-    
-   
+    }
+// hhhhhhhhhhhhhhhhhaaaaaaaaaaaaaaaannnnnnnnnnnnnnndddddddddddddllllllllllllllle submit    //azertyui
+    imageChange(e) {
+        let files = e.target.files || e.dataTransfer.files;
+        if (!files.length)
+              return;
+        this.createImage(files[0]);
+        thid.setState({
+            loading:true
 
-    handleSubmit(e) {
+        })
+    }
+    createImage(file) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          this.setState({
+            image: e.target.result
+          })
+        };
+        reader.readAsDataURL(file);
+      }
+        //azertyui// onFormSubmit(e){
+//     e.preventDefault() 
+//     this.fileUpload(this.state.image);
+//   }  
+fileUpload(e) {
         e.preventDefault();
         // this.postData();
+        // this.fileUpload(this.state.image);
+        // const bodypost = {body: this.state.body}
+        // const formData = {file: this.state.image, bodypost}
         axios
             .post('/posts', 
-                {body: this.state.body},
-                // {headers:{"Content-type":"application/json"}},
-            )
+                {bodypost: this.state.body , file: this.state.image},
+                
+                {headers:{"Content-type":"application/json"},
+            })
             .then(response => {
                 // console
-                // console.log('from handle submit', response);
+                console.log('from handle submit', response);
                 // set state
                 this.setState({
                     posts: [response.data, ...this.state.posts],
-                    body: ''
+                    body: '',
+                    image:"",
+                    loading:false
                 });
             });
         // clear the state body
         this.setState({
-            body: ''
+            body: '',
         });
-    }    
-    handleChange(e) {
+    }   
+     //wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww    
+     handleChange(e) {
         this.setState({
-            body: e.target.value
+            body: e.target.value,
+            loading:true
         });
     }
-
-
     commentChange(e) {
         this.setState({
             bodyComment: e.target.value
             
         });
     }    
-    addComment(id,e) {
+    addComment(id) {
         // e.preventDefault();
         // console.log(id)
         
@@ -114,11 +137,9 @@ export default class App extends Component {
         this.setState({
             bodyComment: ''
         })
-
-
         
-    }   
-     renderPosts() {
+    }    
+    renderPosts() {
         return this.state.posts.map(post => (
             <div key={post.id} className="media">
                 <div className="media-left">
@@ -130,9 +151,11 @@ export default class App extends Component {
                             <b>{post.user.username}</b>
                         </a>{' '}
                         - {post.humanCreatedAt}
+                        
                     </div>
-                    <p>{post.body}</p>
-                    <button onClick={this.getcomment.bind(this,post.id)} data-toggle="modal" data-target={'#exampleModalLong'+post.id}>Comments</button>
+                    <img style={{width:"400px"}} src={`images/${post.images}`} alt=""/>
+
+                    <p onClick={this.getcomment.bind(this,post.id)}  data-toggle="modal" data-target={'#exampleModalLong'+post.id} >{post.body}</p>
                     <div className="modal fade" id={'exampleModalLong'+post.id} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                                 <div className="modal-dialog" role="document">
                                     <div className="modal-content">
@@ -164,11 +187,12 @@ export default class App extends Component {
                                                 <input onChange={this.commentChange} value={this.state.bodyComment}  type="text" className="form-control" />
                                                 </div>
                                                 <div className="col-4">
-                                                    <input  className="btn btn-primary" type="submit" value="Add comment"/>
+                                                    <input className="btn btn-primary" type="submit" value="add comment"/>
                                                 </div>
                                             </div>
                                         </form>
                                         <div className="form-group"> <b>{'all comments ::'}</b>
+                                        {/* get comments */}
                                         {this.state.comments.map(comment =>(
                                             <div>
                                                 <div className="user">
@@ -181,25 +205,23 @@ export default class App extends Component {
                                             </div> 
                                         ))
                                         // post.comments
-                                        }
-                                        </div>
+                                        }</div>
                                         </div>
                                     </div>
                                     </div>
-                                </div>
+                                </div>                                
                 </div>
             </div>
         ));
     }    
     render() {        
-    return (
-<div  className="container-fluid">
+        return (
+<div className="container-fluid">
                 <div className="row justify-content-center">
                     <div className="col-md-6">
                         <div className="card">
-                            <div className="card-header">Tweet something..</div>                            
-                            <div className="card-body">
-                                <form onSubmit={this.handleSubmit}>
+                            <div className="card-header">Tweet something..</div>                            <div className="card-body">
+                                <form onSubmit={this.fileUpload}  encType="multipart/form-data">
                                     <div className="form-group">
                                         <textarea
                                             onChange={this.handleChange}
@@ -208,26 +230,33 @@ export default class App extends Component {
                                             rows="5"
                                             maxLength="140"
                                             placeholder="Whats up?"
-                                            required
                                         />
+                                        <input hidden type="file" name="image" onChange={this.imageChange} ref={fileInput=> this.fileInput = fileInput}/>
+                                        <input type="button" value="Add Picture" onClick={()=> this.fileInput.click()} />
                                     </div>
                                     <div className="row">
-                                        <input type="submit" value="Post" className="ml-3 form-control col-4" />
+                                        {!this.state.loading ? 
+                                        (<input type="button" value="Tweet" className="ml-3 form-control col-4" />) :
+                                        (<input type="submit" value="Tweet" className="ml-3 form-control col-4" />)
+                                    }
+                                        
                                         <h6 className="ml-5 pull-right mt-2">320 characters remaining</h6>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>                        
-                    <div className="col-md-6">
+                    <div style={{paddingTop:"50px"}} className="col-md-8">
                             <div className="card">
-                                <div className="card-header">Recent tweets</div>
-                                {!this.state.loading ? this.renderPosts() : 'Loading...'}
+                                <div  className="card-header">Recent tweets</div>
+                                { this.renderPosts() }
                                 
                                 <div className="card-body" />
                             </div>
+                           
                         </div>
                 </div>
-            </div>        );
+            </div>        
+            );
     }
 }

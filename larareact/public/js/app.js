@@ -68954,13 +68954,16 @@ function (_Component) {
       posts: [],
       loading: false,
       comments: [],
-      bodyComment: ''
+      bodyComment: '',
+      image: ''
     }; // bind
+    // this.onFormSubmit = this.onFormSubmit.bind(this);
 
-    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.renderPosts = _this.renderPosts.bind(_assertThisInitialized(_this));
     _this.commentChange = _this.commentChange.bind(_assertThisInitialized(_this));
+    _this.imageChange = _this.imageChange.bind(_assertThisInitialized(_this));
+    _this.fileUpload = _this.fileUpload.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -68969,11 +68972,14 @@ function (_Component) {
     value: function getPosts() {
       var _this2 = this;
 
-      // this.setState({  });
+      this.setState({
+        theris: true
+      });
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/posts').then(function (response // console.log(response.data.posts)
       ) {
         return _this2.setState({
-          posts: _toConsumableArray(response.data.posts)
+          posts: _toConsumableArray(response.data.posts),
+          theris: false
         });
       });
     }
@@ -69013,36 +69019,77 @@ function (_Component) {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
       clearInterval(this.interval);
+    } // hhhhhhhhhhhhhhhhhaaaaaaaaaaaaaaaannnnnnnnnnnnnnndddddddddddddllllllllllllllle submit    //azertyui
+
+  }, {
+    key: "imageChange",
+    value: function imageChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      this.createImage(files[0]);
+      thid.setState({
+        loading: true
+      });
     }
   }, {
-    key: "handleSubmit",
-    value: function handleSubmit(e) {
+    key: "createImage",
+    value: function createImage(file) {
       var _this5 = this;
 
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        _this5.setState({
+          image: e.target.result
+        });
+      };
+
+      reader.readAsDataURL(file);
+    } //azertyui// onFormSubmit(e){
+    //     e.preventDefault() 
+    //     this.fileUpload(this.state.image);
+    //   }  
+
+  }, {
+    key: "fileUpload",
+    value: function fileUpload(e) {
+      var _this6 = this;
+
       e.preventDefault(); // this.postData();
+      // this.fileUpload(this.state.image);
+      // const bodypost = {body: this.state.body}
+      // const formData = {file: this.state.image, bodypost}
 
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/posts', {
-        body: this.state.body
-      } // {headers:{"Content-type":"application/json"}},
-      ).then(function (response) {
+        bodypost: this.state.body,
+        file: this.state.image
+      }, {
+        headers: {
+          "Content-type": "application/json"
+        }
+      }).then(function (response) {
         // console
-        // console.log('from handle submit', response);
-        // set state
-        _this5.setState({
-          posts: [response.data].concat(_toConsumableArray(_this5.state.posts)),
-          body: ''
+        console.log('from handle submit', response); // set state
+
+        _this6.setState({
+          posts: [response.data].concat(_toConsumableArray(_this6.state.posts)),
+          body: '',
+          image: "",
+          loading: false
         });
       }); // clear the state body
 
       this.setState({
         body: ''
       });
-    }
+    } //wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww    
+
   }, {
     key: "handleChange",
     value: function handleChange(e) {
       this.setState({
-        body: e.target.value
+        body: e.target.value,
+        loading: true
       });
     }
   }, {
@@ -69054,8 +69101,8 @@ function (_Component) {
     }
   }, {
     key: "addComment",
-    value: function addComment(id, e) {
-      var _this6 = this;
+    value: function addComment(id) {
+      var _this7 = this;
 
       // e.preventDefault();
       // console.log(id)
@@ -69070,7 +69117,7 @@ function (_Component) {
         // console
         // console.log('from handle submit', response);
         // set state
-        _this6.setState({
+        _this7.setState({
           comments: response.data,
           bodyComment: ''
         });
@@ -69082,7 +69129,7 @@ function (_Component) {
   }, {
     key: "renderPosts",
     value: function renderPosts() {
-      var _this7 = this;
+      var _this8 = this;
 
       return this.state.posts.map(function (post) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -69099,11 +69146,17 @@ function (_Component) {
           className: "user"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
           href: "/users/".concat(post.user.username)
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, post.user.username)), ' ', "- ", post.humanCreatedAt), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, post.body), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          onClick: _this7.getcomment.bind(_this7, post.id),
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, post.user.username)), ' ', "- ", post.humanCreatedAt), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          style: {
+            width: "400px"
+          },
+          src: "images/".concat(post.images),
+          alt: ""
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          onClick: _this8.getcomment.bind(_this8, post.id),
           "data-toggle": "modal",
           "data-target": '#exampleModalLong' + post.id
-        }, "Comments"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, post.body), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "modal fade",
           id: 'exampleModalLong' + post.id,
           tabIndex: "-1",
@@ -69144,14 +69197,14 @@ function (_Component) {
           htmlFor: "recipient-name",
           className: "bold col-form-label"
         }, "Add a comment"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-          onSubmit: _this7.addComment.bind(_this7, post.id)
+          onSubmit: _this8.addComment.bind(_this8, post.id)
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: " row"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: " col-8 "
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-          onChange: _this7.commentChange,
-          value: _this7.state.bodyComment,
+          onChange: _this8.commentChange,
+          value: _this8.state.bodyComment,
           type: "text",
           className: "form-control"
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -69159,10 +69212,10 @@ function (_Component) {
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           className: "btn btn-primary",
           type: "submit",
-          value: "Add comment"
+          value: "add comment"
         })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "form-group"
-        }, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, 'all comments ::'), _this7.state.comments.map(function (comment) {
+        }, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, 'all comments ::'), _this8.state.comments.map(function (comment) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "user"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -69177,6 +69230,8 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this9 = this;
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container-fluid"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -69187,10 +69242,11 @@ function (_Component) {
         className: "card"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-header"
-      }, "Tweet something.."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Tweet something.."), "                            ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        onSubmit: this.handleSubmit
+        onSubmit: this.fileUpload,
+        encType: "multipart/form-data"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
@@ -69199,23 +69255,43 @@ function (_Component) {
         className: "form-control",
         rows: "5",
         maxLength: "140",
-        placeholder: "Whats up?",
-        required: true
+        placeholder: "Whats up?"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        hidden: true,
+        type: "file",
+        name: "image",
+        onChange: this.imageChange,
+        ref: function ref(fileInput) {
+          return _this9.fileInput = fileInput;
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "button",
+        value: "Add Picture",
+        onClick: function onClick() {
+          return _this9.fileInput.click();
+        }
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, !this.state.loading ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "button",
+        value: "Tweet",
+        className: "ml-3 form-control col-4"
+      }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "submit",
-        value: "Post",
+        value: "Tweet",
         className: "ml-3 form-control col-4"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", {
         className: "ml-5 pull-right mt-2"
       }, "320 characters remaining")))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-6"
+        style: {
+          paddingTop: "50px"
+        },
+        className: "col-md-8"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-header"
-      }, "Recent tweets"), !this.state.loading ? this.renderPosts() : 'Loading...', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Recent tweets"), this.renderPosts(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
       })))));
     }
