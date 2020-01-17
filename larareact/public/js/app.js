@@ -69027,7 +69027,7 @@ function (_Component) {
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
       this.createImage(files[0]);
-      thid.setState({
+      this.setState({
         loading: true
       });
     }
@@ -69040,7 +69040,8 @@ function (_Component) {
 
       reader.onload = function (e) {
         _this5.setState({
-          image: e.target.result
+          image: e.target.result,
+          loading: true
         });
       };
 
@@ -69074,13 +69075,14 @@ function (_Component) {
         _this6.setState({
           posts: [response.data].concat(_toConsumableArray(_this6.state.posts)),
           body: '',
-          image: "",
+          image: '',
           loading: false
         });
       }); // clear the state body
 
       this.setState({
-        body: ''
+        body: '',
+        image: ''
       });
     } //wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww    
 
@@ -69146,17 +69148,22 @@ function (_Component) {
           className: "user"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
           href: "/users/".concat(post.user.username)
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, post.user.username)), ' ', "- ", post.humanCreatedAt), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, post.user.username)), ' ', "- ", post.humanCreatedAt), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, post.body), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           style: {
-            width: "400px"
+            width: "400px",
+            display: "block",
+            paddingBottom: "10px"
           },
           src: "images/".concat(post.images),
           alt: ""
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "mb-4 btn btn-success",
           onClick: _this8.getcomment.bind(_this8, post.id),
           "data-toggle": "modal",
           "data-target": '#exampleModalLong' + post.id
-        }, post.body), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          "class": "fas fa-comment"
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "modal fade",
           id: 'exampleModalLong' + post.id,
           tabIndex: "-1",
@@ -69193,7 +69200,7 @@ function (_Component) {
           className: "user"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
           href: "/users/".concat(post.user.username)
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, post.user.username)), ' ', "- ", post.humanCreatedAt)), post.body, post.id, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, post.user.username)), ' ', "- ", post.humanCreatedAt)), post.body, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
           htmlFor: "recipient-name",
           className: "bold col-form-label"
         }, "Add a comment"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
@@ -69215,12 +69222,12 @@ function (_Component) {
           value: "add comment"
         })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "form-group"
-        }, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, 'all comments ::'), _this8.state.comments.map(function (comment) {
+        }, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, 'All Comments :'), _this8.state.comments.map(function (comment) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "user"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
             href: "/users/".concat(post.user.username)
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, comment.username)), ' ', "- ", comment.humanCreatedAt), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, comment.username)), ' ', comment.humanCreatedAt), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             key: comment.id - comment.id
           }, comment.comments));
         }) // post.comments
@@ -69242,7 +69249,7 @@ function (_Component) {
         className: "card"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-header"
-      }, "Tweet something.."), "                            ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Tweet something.."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         onSubmit: this.fileUpload,
@@ -69255,7 +69262,10 @@ function (_Component) {
         className: "form-control",
         rows: "5",
         maxLength: "140",
-        placeholder: "Whats up?"
+        placeholder: "Whats up?",
+        style: {
+          marginBottom: "20px"
+        }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         hidden: true,
         type: "file",
@@ -69264,19 +69274,34 @@ function (_Component) {
         ref: function ref(fileInput) {
           return _this9.fileInput = fileInput;
         }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "button",
-        value: "Add Picture",
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-warning",
+        type: "button" //value="Add Picture" 
+        ,
         onClick: function onClick() {
           return _this9.fileInput.click();
         }
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        alt: "Add Image",
+        style: {
+          fontSize: "25px"
+        },
+        className: "fas fa-image"
+      }), " ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, !this.state.loading ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        style: {
+          backgroundColor: "#86c7f4",
+          color: "white"
+        },
         type: "button",
         value: "Tweet",
         className: "ml-3 form-control col-4"
       }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        style: {
+          backgroundColor: "#00acee",
+          color: "white"
+        },
         type: "submit",
         value: "Tweet",
         className: "ml-3 form-control col-4"

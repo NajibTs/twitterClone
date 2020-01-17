@@ -18,7 +18,8 @@ export default class App extends Component {    constructor(props) {
         this.commentChange = this.commentChange.bind(this);
         this.imageChange = this.imageChange.bind(this);
         this.fileUpload = this.fileUpload.bind(this);
-    }    getPosts() {
+    }  
+      getPosts() {
         this.setState({ theris: true });
         axios.get('/posts').then((
             response // console.log(response.data.posts)
@@ -57,7 +58,7 @@ export default class App extends Component {    constructor(props) {
         if (!files.length)
               return;
         this.createImage(files[0]);
-        thid.setState({
+        this.setState({
             loading:true
 
         })
@@ -66,7 +67,8 @@ export default class App extends Component {    constructor(props) {
         let reader = new FileReader();
         reader.onload = (e) => {
           this.setState({
-            image: e.target.result
+            image: e.target.result,
+            loading:true
           })
         };
         reader.readAsDataURL(file);
@@ -94,13 +96,14 @@ fileUpload(e) {
                 this.setState({
                     posts: [response.data, ...this.state.posts],
                     body: '',
-                    image:"",
+                    image:'',
                     loading:false
                 });
             });
         // clear the state body
         this.setState({
             body: '',
+            image:''
         });
     }   
      //wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww    
@@ -153,9 +156,11 @@ fileUpload(e) {
                         - {post.humanCreatedAt}
                         
                     </div>
-                    <img style={{width:"400px"}} src={`images/${post.images}`} alt=""/>
+                    
+                    <p  >{post.body}</p>
+                    <img style={{width:"400px",display:"block", paddingBottom:"10px"}} src={`images/${post.images}`} alt=""/>
 
-                    <p onClick={this.getcomment.bind(this,post.id)}  data-toggle="modal" data-target={'#exampleModalLong'+post.id} >{post.body}</p>
+        <button  className="mb-4 btn btn-success" onClick={this.getcomment.bind(this,post.id)}  data-toggle="modal" data-target={'#exampleModalLong'+post.id}><i class="fas fa-comment"></i></button> 
                     <div className="modal fade" id={'exampleModalLong'+post.id} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                                 <div className="modal-dialog" role="document">
                                     <div className="modal-content">
@@ -178,7 +183,7 @@ fileUpload(e) {
                                             </div>
                                         </div>
                                             {post.body}
-                                            {post.id}
+                                            
                                             <br/>
                                             <label htmlFor="recipient-name" className="bold col-form-label">Add a comment</label>
                                         <form onSubmit={this.addComment.bind(this,post.id)} >
@@ -191,7 +196,7 @@ fileUpload(e) {
                                                 </div>
                                             </div>
                                         </form>
-                                        <div className="form-group"> <b>{'all comments ::'}</b>
+                                        <div className="form-group"> <b>{'All Comments :'}</b>
                                         {/* get comments */}
                                         {this.state.comments.map(comment =>(
                                             <div>
@@ -199,7 +204,7 @@ fileUpload(e) {
                                                     <a href={`/users/${post.user.username}`}>
                                                         <b>{comment.username}</b>
                                                     </a>{' '}
-                                                    - {comment.humanCreatedAt}
+                                                    {comment.humanCreatedAt}
                                                 </div>
                                                 <div key={comment.id-comment.id}>{comment.comments}</div>
                                             </div> 
@@ -220,7 +225,8 @@ fileUpload(e) {
                 <div className="row justify-content-center">
                     <div className="col-md-6">
                         <div className="card">
-                            <div className="card-header">Tweet something..</div>                            <div className="card-body">
+                            <div className="card-header">Tweet something..</div>                            
+                            <div className="card-body">
                                 <form onSubmit={this.fileUpload}  encType="multipart/form-data">
                                     <div className="form-group">
                                         <textarea
@@ -230,14 +236,16 @@ fileUpload(e) {
                                             rows="5"
                                             maxLength="140"
                                             placeholder="Whats up?"
+                                            style={{marginBottom:"20px"}}
                                         />
                                         <input hidden type="file" name="image" onChange={this.imageChange} ref={fileInput=> this.fileInput = fileInput}/>
-                                        <input type="button" value="Add Picture" onClick={()=> this.fileInput.click()} />
+                                        <button  className="btn btn-warning" type="button" //value="Add Picture" 
+                                        onClick={()=> this.fileInput.click()}> <i alt="Add Image" style={{fontSize:"25px"}} className="fas fa-image" ></i> </button>
                                     </div>
                                     <div className="row">
                                         {!this.state.loading ? 
-                                        (<input type="button" value="Tweet" className="ml-3 form-control col-4" />) :
-                                        (<input type="submit" value="Tweet" className="ml-3 form-control col-4" />)
+                                        (<input style={{backgroundColor:"#86c7f4", color:"white"}} type="button" value="Tweet" className="ml-3 form-control col-4" />) :
+                                        (<input style={{backgroundColor:"#00acee", color:"white"}}  type="submit" value="Tweet" className="ml-3 form-control col-4" />)
                                     }
                                         
                                         <h6 className="ml-5 pull-right mt-2">320 characters remaining</h6>
@@ -256,7 +264,9 @@ fileUpload(e) {
                            
                         </div>
                 </div>
-            </div>        
+            </div>       
+
+
             );
     }
 }

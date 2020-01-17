@@ -12,25 +12,27 @@
         <a href="{{ route('users.unfollow', $user) }}" class="twitter-follow-button btn btn-primary"
           data-show-count="false" data-size="large" data-show-screen-name="false" data-dnt="true">UnFollow </a>
         @else
-        <a  href="{{ route('users.follow', $user) }}" class=" twitter-follow-button btn btn-success"
+        <a href="{{ route('users.follow', $user) }}" class=" twitter-follow-button btn btn-success"
           data-show-count="false" data-size="large" data-show-screen-name="false" data-dnt="true">Follow </a>
         @endif
         @endif
       </div>
       <a title={{$user->username}} href="https://twitter.com/mertskaplan" class="twPc-avatarLink">
-        <img alt={{$user->username}} src="{{asset('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPRF77hallvRPU5lQxBevWt7oi2p46zi6BxjxWFtZrwhXeKGcZ&s')}}" class="twPc-avatarImg">
+        <img alt={{$user->username}}
+          src="{{asset('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPRF77hallvRPU5lQxBevWt7oi2p46zi6BxjxWFtZrwhXeKGcZ&s')}}"
+          class="twPc-avatarImg">
       </a>
 
       <div class="twPc-divUser">
         <div class="twPc-divName">
           <h1 class="mt-5">{{ $user->username }}</h1>
         </div>
-        <span >
-          <a  href="{{ route('users', $user) }}">@<span>{{ $user->username }}</span></a>
+        <span>
+          <a style="margin-left:1%" href="{{ route('users', $user) }}">@<span>{{ $user->username }}</span></a>
         </span>
       </div>
 
-      <div class="twPc-divStats">
+      <div style="margin-left:20%" class="twPc-divStats">
         <ul class="twPc-Arrange">
           <li class="twPc-ArrangeSizeFit">
             <a href="#" @if ($user->posts->count())
@@ -46,7 +48,7 @@
               data-toggle="modal" data-target="#followingModal"
               @endif
               title="{{$user->following->count()}} Following">
-              <span class="twPc-StatLabel twPc-block">folloing</span>
+              <span class="twPc-StatLabel twPc-block">Followings</span>
               <span class="twPc-StatValue">{{$user->following->count()}}</span>
             </a>
           </li>
@@ -60,6 +62,35 @@
             </a>
           </li>
         </ul>
+
+
+        @foreach($user->posts as $post)
+
+
+        <div style="width:50%; margin-left:15%; margin-top:50px" class="card">
+          <div class="media-left">
+            <img src={{$post->user->avatar}} class="media-object mr-2" />
+          </div>
+          <div class="media-body">
+            <div class="user">
+              <a href="{{ route('users', $user) }}">
+                <b>{{$post->user->username}}</b>
+              </a>{{' '}}
+              - {{$post->humanCreatedAt}}
+            </div>
+            <p>{{$post->body}}</p>
+           
+            <img style="width:400px" src="/images/{{$post->images}}" alt="" />
+
+
+          </div>
+        </div>
+        @endforeach
+
+
+
+
+
       </div>
     </div>
   </div>
