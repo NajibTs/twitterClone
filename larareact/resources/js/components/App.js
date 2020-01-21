@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios'
-export default class App extends Component {    constructor(props) {
+import axios from 'axios';
+import LeftDiv from './Group_components/LeftDiv';
+import RightDiv from './Group_components/RightDiv';
+import RenderPost from './Group_components/RenderPost';
+import PostDiv from './Group_components/PostDiv';
+import GetComments from './Group_components/GetComments';
+
+export default class App extends Component {    
+    constructor(props) {
         super(props);
         this.state = {
             body: '',
@@ -181,175 +188,104 @@ fileUpload(e) {
     }    
     renderPosts() {
         return this.state.posts.map(post => (
-            <div key={post.id} className="media">
-                <div  className="media-left">
-                    <img src={post.user.avatar} className="media-object mr-2" />
-                </div>
-                <div  className="media-body">
-                    <div className="user">
-                        <a href={`/users/${post.user.username}`}>
-                            <b>{post.user.username}</b>
-                        </a>{' '}
-                        - {post.humanCreatedAt}
-                        
+            <div>
+            <RenderPost
+            getcomment={this.getcomment.bind(this, post.id)}
+            post={post}
+            />
+            <div className="modal fade" id={'exampleModalLong'+post.id} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                    <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLabel">Tweets</h5>
+                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
                     </div>
+                    <div className="modal-body">
+                    <div className="row">
+                        <div className="media-left">
+                            <img src={post.user.avatar} className="media-object mr-2" />
+                        </div>{' '}
+                        <div className="user">
+                            <a href={`/users/${post.user.username}`}>
+                                <b>{post.user.username}</b>
+                            </a>{' '}
+                            - {post.humanCreatedAt}
+                        </div>
+                    </div>
+                    {post.body}
                     
-                    <p  >{post.body}</p>
-                    <img style={{width:"400px",display:"block", paddingBottom:"10px"}} src={`images/${post.images}`} alt=""/>
+                    <br/>
+                    <label htmlFor="recipient-name" className="bold col-form-label">Add a comment</label>
+                <form onSubmit={this.addComment.bind(this,post.id)} >
+                    <div className=" row">
+                        <div className=" col-8 ">
+                        <input onChange={this.commentChange} value={this.state.bodyComment}  type="text" className="form-control" />
+                        </div>
+                        <div className="col-4">
+                            <input className="btn btn-primary" type="submit" value="add comment"/>
+                        </div>
+                    </div>
+                </form>
+                <div className="form-group"> <b>{'All Comments :'}</b>
+                {/* get comments */}
+                {this.state.comments.map(comment =>(
+                    
+                    <GetComments 
 
-                    {  !post.videos ?
-                        null :
-                        <iframe style={{display:"block"}} src={`/storage/videos/${post.videos}`} frameBorder="0"></iframe>
-                        
-                     } 
-
-
-
-
-        <button  className="mb-4 btn btn-success" onClick={this.getcomment.bind(this,post.id)}  data-toggle="modal" data-target={'#exampleModalLong'+post.id}><i class="fas fa-comment"></i></button> 
-                    <div className="modal fade" id={'exampleModalLong'+post.id} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                <div className="modal-dialog" role="document">
-                                    <div className="modal-content">
-                                        <div className="modal-header">
-                                        <h5 className="modal-title" id="exampleModalLabel">Tweets</h5>
-                                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        </div>
-                                        <div className="modal-body">
-                                        <div className="row">
-                                            <div className="media-left">
-                                                <img src={post.user.avatar} className="media-object mr-2" />
-                                            </div>{' '}
-                                            <div className="user">
-                                                <a href={`/users/${post.user.username}`}>
-                                                    <b>{post.user.username}</b>
-                                                </a>{' '}
-                                                - {post.humanCreatedAt}
-                                            </div>
-                                        </div>
-                                            {post.body}
-                                            
-                                            <br/>
-                                            <label htmlFor="recipient-name" className="bold col-form-label">Add a comment</label>
-                                        <form onSubmit={this.addComment.bind(this,post.id)} >
-                                            <div className=" row">
-                                                <div className=" col-8 ">
-                                                <input onChange={this.commentChange} value={this.state.bodyComment}  type="text" className="form-control" />
-                                                </div>
-                                                <div className="col-4">
-                                                    <input className="btn btn-primary" type="submit" value="add comment"/>
-                                                </div>
-                                            </div>
-                                        </form>
-                                        <div className="form-group"> <b>{'All Comments :'}</b>
-                                        {/* get comments */}
-                                        {this.state.comments.map(comment =>(
-                                            <div>
-                                                <div className="user">
-                                                    <a href={`/users/${post.user.username}`}>
-                                                        <b>{comment.username}</b>
-                                                    </a>{' '}
-                                                    {comment.humanCreatedAt}
-                                                </div>
-                                                <div key={comment.id-comment.id}>{comment.comments}</div>
-                                            </div> 
-                                        ))
-                                        // post.comments
-                                        }</div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>                                
+                    comment={comment}
+                    post={post}
+                    
+                    />
+                    ))
+                    // post.comments
+                    }</div>
+                    </div>
                 </div>
-            </div>
+                </div>
+            </div>      
+            </div>                          
+
         ));
     }    
     render() {        
         return (
 <div className="container-fluid">
                 <div className="row justify-content-center">
-                    <div className="col-md-3">
-                        <div className="card">
-                                                      
-                            <div className="card-body">
-
-                                <li style={{listStyleType:"none"}}>
-                                    <ul>Home</ul>
-                                    <ul>Explore</ul>
-                                    <ul>Notifications</ul>
-                                    <ul>Messages</ul>
-
-
-                                </li>
-                                
-                                
-                            </div>
-                        </div>
-                    </div>                        
+                  <LeftDiv />                     
                     <div className="col-md-6">
-                            <div className="card">
-                               
+                    <div className="card">
+                    
 
-                                <div className="row">
-                                    
-                                    <div className="col-md-12">
-                        <div className="card">
-                                                       
-                            <div  className="card-body">
-                                <form onSubmit={this.fileUpload}  encType="multipart/form-data">
-                                    <div className="form-group">
-                                        <textarea
-                                            onChange={this.handleChange}
-                                            value={this.state.body}
-                                            className="form-control"
-                                            rows="5"
-                                            maxLength="140"
-                                            placeholder="What's happening?"
-                                            style={{marginBottom:"20px"}}
-                                        />
-                                        <input hidden type="file" name="image" onChange={this.imageChange} ref={fileInput=> this.fileInput = fileInput}/>
-                                        <button   className="mr-2 btn btn-warning" type="button" //value="Add Picture" 
-                                        onClick={()=> this.fileInput.click()}> <i alt="Add Image" style={{fontSize:"25px"}} className="fas fa-image" ></i> </button>
-                                    
-                                    <input hidden  type="file" name="video" onChange={this.videoChange} ref={fileInput2 => this.fileInput2 = fileInput2} />   
-                                    <button className="ml-2 btn btn-danger" type="button" 
-                                    onClick={()=> this.fileInput2.click()}  ><i alt="Add video" style={{fontSize:"25px"}} className="fas fa-video" ></i>  </button>                                
-                                    </div>
-                                    <div className="row">
-                                        {!this.state.loading ? 
-                                        (<input style={{backgroundColor:"#86c7f4", color:"white"}} type="button" value="Tweet" className="ml-3 form-control col-4" />) :
-                                        (<input style={{backgroundColor:"#00acee", color:"white"}}  type="submit" value="Tweet" className="ml-3 form-control col-4" />)
-                                    }
-                                        
-                                        <h6 className="ml-5 pull-right mt-2">320 characters remaining</h6>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                        <div className="row">
+                            
+                        <PostDiv
+                        fileUpload={this.fileUpload}
+                        handleChange={this.handleChange}
+                        imageChange={this.imageChange}
+                        videoChange={this.videoChange}
+                        body={this.state.body}
+                        image={this.state.image}
+                        video={this.state.video}
+
+                        />
                 </div>
 
                                 
                                 
-                                <div className="card-body" />
-                            </div>
-                            <div style={{marginTop:"30px"}} className="card">
+                    <div className="card-body" />
+                    </div>
+                    <div style={{marginTop:"30px"}} className="card">
 
-                            { this.renderPosts() }
+                    { this.renderPosts() }
 
-                            </div>
+                    </div>
                            
                     </div>
-                    <div  className="col-md-3">
-                            <div className="card">
-                                <div  className="card-header">Trends for you</div>
-                                
-                                
-                                <div className="card-body" />
-                            </div>
-                           
-                    </div>
+                   
+
+                  <RightDiv/>
 
                 </div>
             </div>       
