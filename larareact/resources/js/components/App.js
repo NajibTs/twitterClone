@@ -9,7 +9,8 @@ export default class App extends Component {    constructor(props) {
             loading: false,
             comments:[],
             bodyComment: '',
-            image: ''
+            image: '',
+            video:''
         };
         // bind
         // this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -18,6 +19,7 @@ export default class App extends Component {    constructor(props) {
         this.commentChange = this.commentChange.bind(this);
         this.imageChange = this.imageChange.bind(this);
         this.fileUpload = this.fileUpload.bind(this);
+        this.videoChange= this.videoChange.bind(this);
     }  
       getPosts() {
         this.setState({ theris: true });
@@ -63,6 +65,23 @@ export default class App extends Component {    constructor(props) {
 
         })
     }
+
+
+    videoChange(e) {
+        let files = e.target.files || e.dataTransfer.files;
+        if (!files.length)
+              return;
+        this.createVideo(files[0]);
+        this.setState({
+            loading:true
+
+        })
+    }
+
+
+
+
+
     createImage(file) {
         let reader = new FileReader();
         reader.onload = (e) => {
@@ -77,6 +96,22 @@ export default class App extends Component {    constructor(props) {
 //     e.preventDefault() 
 //     this.fileUpload(this.state.image);
 //   }  
+
+
+createVideo(file) {
+    let reader = new FileReader();
+    reader.onload = (e) => {
+      this.setState({
+        video: e.target.result,
+        loading:true
+      })
+    };
+    reader.readAsDataURL(file);
+  }
+
+
+
+
 fileUpload(e) {
         e.preventDefault();
         // this.postData();
@@ -85,7 +120,7 @@ fileUpload(e) {
         // const formData = {file: this.state.image, bodypost}
         axios
             .post('/posts', 
-                {bodypost: this.state.body , file: this.state.image},
+                {bodypost: this.state.body , file: this.state.image, video:this.state.video},
                 
                 {headers:{"Content-type":"application/json"},
             })
@@ -97,13 +132,15 @@ fileUpload(e) {
                     posts: [response.data, ...this.state.posts],
                     body: '',
                     image:'',
+                    video:'',
                     loading:false
                 });
             });
         // clear the state body
         this.setState({
             body: '',
-            image:''
+            image:'',
+            video:''
         });
     }   
      //wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww    
@@ -145,10 +182,10 @@ fileUpload(e) {
     renderPosts() {
         return this.state.posts.map(post => (
             <div key={post.id} className="media">
-                <div className="media-left">
+                <div  className="media-left">
                     <img src={post.user.avatar} className="media-object mr-2" />
                 </div>
-                <div className="media-body">
+                <div  className="media-body">
                     <div className="user">
                         <a href={`/users/${post.user.username}`}>
                             <b>{post.user.username}</b>
@@ -159,6 +196,15 @@ fileUpload(e) {
                     
                     <p  >{post.body}</p>
                     <img style={{width:"400px",display:"block", paddingBottom:"10px"}} src={`images/${post.images}`} alt=""/>
+
+                    {  !post.videos ?
+                        null :
+                        <iframe style={{display:"block"}} src={`/storage/videos/${post.videos}`} frameBorder="0"></iframe>
+                        
+                     } 
+
+
+
 
         <button  className="mb-4 btn btn-success" onClick={this.getcomment.bind(this,post.id)}  data-toggle="modal" data-target={'#exampleModalLong'+post.id}><i class="fas fa-comment"></i></button> 
                     <div className="modal fade" id={'exampleModalLong'+post.id} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -223,10 +269,34 @@ fileUpload(e) {
         return (
 <div className="container-fluid">
                 <div className="row justify-content-center">
-                    <div className="col-md-6">
+                    <div className="col-md-3">
                         <div className="card">
-                            <div className="card-header">Tweet something..</div>                            
+                                                      
                             <div className="card-body">
+
+                                <li style={{listStyleType:"none"}}>
+                                    <ul>Home</ul>
+                                    <ul>Explore</ul>
+                                    <ul>Notifications</ul>
+                                    <ul>Messages</ul>
+
+
+                                </li>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>                        
+                    <div className="col-md-6">
+                            <div className="card">
+                               
+
+                                <div className="row">
+                                    
+                                    <div className="col-md-12">
+                        <div className="card">
+                                                       
+                            <div  className="card-body">
                                 <form onSubmit={this.fileUpload}  encType="multipart/form-data">
                                     <div className="form-group">
                                         <textarea
@@ -235,12 +305,16 @@ fileUpload(e) {
                                             className="form-control"
                                             rows="5"
                                             maxLength="140"
-                                            placeholder="Whats up?"
+                                            placeholder="What's happening?"
                                             style={{marginBottom:"20px"}}
                                         />
                                         <input hidden type="file" name="image" onChange={this.imageChange} ref={fileInput=> this.fileInput = fileInput}/>
-                                        <button  className="btn btn-warning" type="button" //value="Add Picture" 
+                                        <button   className="mr-2 btn btn-warning" type="button" //value="Add Picture" 
                                         onClick={()=> this.fileInput.click()}> <i alt="Add Image" style={{fontSize:"25px"}} className="fas fa-image" ></i> </button>
+                                    
+                                    <input hidden  type="file" name="video" onChange={this.videoChange} ref={fileInput2 => this.fileInput2 = fileInput2} />   
+                                    <button className="ml-2 btn btn-danger" type="button" 
+                                    onClick={()=> this.fileInput2.click()}  ><i alt="Add video" style={{fontSize:"25px"}} className="fas fa-video" ></i>  </button>                                
                                     </div>
                                     <div className="row">
                                         {!this.state.loading ? 
@@ -253,16 +327,30 @@ fileUpload(e) {
                                 </form>
                             </div>
                         </div>
-                    </div>                        
-                    <div style={{paddingTop:"50px"}} className="col-md-8">
+                    </div>
+                </div>
+
+                                
+                                
+                                <div className="card-body" />
+                            </div>
+                            <div style={{marginTop:"30px"}} className="card">
+
+                            { this.renderPosts() }
+
+                            </div>
+                           
+                    </div>
+                    <div  className="col-md-3">
                             <div className="card">
-                                <div  className="card-header">Recent tweets</div>
-                                { this.renderPosts() }
+                                <div  className="card-header">Trends for you</div>
+                                
                                 
                                 <div className="card-body" />
                             </div>
                            
-                        </div>
+                    </div>
+
                 </div>
             </div>       
 
