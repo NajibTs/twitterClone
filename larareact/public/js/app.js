@@ -70311,7 +70311,97 @@ function (_Component) {
         style: {
           listStyleType: "none"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, "Home"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, "Explore"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, "Notifications"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, "Messages")))));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, "  ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "hover",
+        href: "#",
+        style: {
+          fontFamily: "Montserrat, sans-serif",
+          fontWeight: "bold",
+          fontSize: "20px",
+          textDecoration: "none",
+          color: "black"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "hover"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        style: {
+          fontSize: "20px",
+          marginRight: "10px"
+        },
+        className: " hover fas fa-home"
+      }), "Home"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, "  ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "hover",
+        href: "#",
+        style: {
+          fontFamily: "Montserrat, sans-serif",
+          fontWeight: "bold",
+          fontSize: "20px",
+          textDecoration: "none",
+          color: "black"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "hover"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        style: {
+          fontSize: "20px",
+          marginRight: "10px"
+        },
+        className: " hover fas fa-user"
+      }), "Profile"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, "  ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "hover",
+        href: "#",
+        style: {
+          fontFamily: "Montserrat, sans-serif",
+          fontWeight: "bold",
+          fontSize: "20px",
+          textDecoration: "none",
+          color: "black"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "hover"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        style: {
+          fontSize: "20px",
+          marginRight: "10px"
+        },
+        className: " hover fas fa-hashtag"
+      }), "Explore"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, "  ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "hover",
+        href: "#",
+        style: {
+          fontFamily: "Montserrat, sans-serif",
+          fontWeight: "bold",
+          fontSize: "20px",
+          textDecoration: "none",
+          color: "black"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "hover"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        style: {
+          fontSize: "20px",
+          marginRight: "10px"
+        },
+        className: " hover fas fa-bell"
+      }), "Notifications"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, "  ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "hover",
+        href: "#",
+        style: {
+          fontFamily: "Montserrat, sans-serif",
+          fontWeight: "bold",
+          fontSize: "20px",
+          textDecoration: "none",
+          color: "black"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "hover"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        style: {
+          fontSize: "20px",
+          marginRight: "10px"
+        },
+        className: " hover fas fa-envelope"
+      }), "Messages")))))));
     }
   }]);
 
@@ -70545,7 +70635,11 @@ function (_Component) {
         className: "user"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         href: "/users/".concat(user.username)
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, user.username)), ' ', "- ", humanCreatedAt), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, body), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, user.username)), ' ', "- ", humanCreatedAt), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        style: {
+          fontFamily: "Arial"
+        }
+      }, body), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         style: {
           width: "400px",
           display: "block",
@@ -70632,6 +70726,12 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: {
+          fontFamily: "Montserrat, sans-serif",
+          fontWeight: "Ultra-blackbold",
+          fontSize: "20px",
+          color: "black"
+        },
         className: "card-header"
       }, "Trends for you"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"

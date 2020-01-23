@@ -49,4 +49,11 @@ class PostController extends Controller {
         return response()->json($post->with('user')->find($fileupload->id));       
          // return the response
     }
+
+    public function destroy($id)
+    {
+        $post = Post::findOrFail($id);
+        $post->delete();
+        return back() ;
+    }
 }

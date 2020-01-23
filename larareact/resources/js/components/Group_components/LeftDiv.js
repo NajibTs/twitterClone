@@ -9,11 +9,12 @@ export default class LeftDiv extends Component {
                             <div className="card-body">
 
                                 <li style={{listStyleType:"none"}}>
-                                    <ul>Home</ul>
-                                    <ul>Explore</ul>
-                                    <ul>Notifications</ul>
-                                    <ul>Messages</ul>
-                                </li>
+                                 <ul>  <a className="hover"  href="#" style={{fontFamily:"Montserrat, sans-serif", fontWeight:"bold", fontSize:"20px", textDecoration:"none", color:"black" }}><p className="hover"><i style={{fontSize:"20px", marginRight:"10px" }} className=" hover fas fa-home"></i>Home</p></a></ul>
+                                 <ul>  <a className="hover"  href="#" style={{fontFamily:"Montserrat, sans-serif", fontWeight:"bold", fontSize:"20px", textDecoration:"none", color:"black" }}><p className="hover"><i style={{fontSize:"20px", marginRight:"10px" }} className=" hover fas fa-user"></i>Profile</p></a></ul>
+                                 <ul>  <a className="hover"  href="#" style={{fontFamily:"Montserrat, sans-serif", fontWeight:"bold", fontSize:"20px", textDecoration:"none", color:"black" }}><p className="hover"><i style={{fontSize:"20px", marginRight:"10px" }} className=" hover fas fa-hashtag" ></i>Explore</p></a></ul>
+                                 <ul>  <a className="hover"  href="#" style={{fontFamily:"Montserrat, sans-serif", fontWeight:"bold", fontSize:"20px", textDecoration:"none", color:"black" }}><p className="hover"><i style={{fontSize:"20px", marginRight:"10px" }} className=" hover fas fa-bell"></i>Notifications</p></a></ul>
+                                 <ul>  <a className="hover"  href="#" style={{fontFamily:"Montserrat, sans-serif", fontWeight:"bold", fontSize:"20px", textDecoration:"none", color:"black" }}><p className="hover"><i style={{fontSize:"20px", marginRight:"10px" }} className=" hover fas fa-envelope"></i>Messages</p></a></ul>
+                                 </li>
                                 
                                 
                             </div>

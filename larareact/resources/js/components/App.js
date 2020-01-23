@@ -193,6 +193,9 @@ fileUpload(e) {
             getcomment={this.getcomment.bind(this, post.id)}
             post={post}
             />
+
+            
+
             <div className="modal fade" id={'exampleModalLong'+post.id} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
             <div className="modal-dialog" role="document">
                 <div className="modal-content">

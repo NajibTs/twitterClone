@@ -18,7 +18,7 @@ export default class RenderPost extends Component {
                         
                     </div>
                     
-                    <p  >{body}</p>
+                    <p style={{fontFamily:"Arial"}} >{body}</p>
                     <img style={{width:"400px",display:"block", paddingBottom:"10px"}} src={`images/${images}`} alt=""/>
 
                     {  !videos ?

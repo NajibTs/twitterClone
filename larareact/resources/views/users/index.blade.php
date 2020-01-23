@@ -68,9 +68,22 @@
 
 
         <div style="width:50%; margin-left:15%; margin-top:50px" class="card">
-          <div class="media-left">
-            <img src={{$post->user->avatar}} class="media-object mr-2" />
-          </div>
+          <div style="margin-left:1px" class="row justify-content-between " >
+            <div class="media-left">
+              <img src={{$post->user->avatar}} class="media-object mr-2" />
+
+            </div>
+
+            <!-- Basic dropdown -->
+            <div class="dropdown-toggle mr-4" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false"></div> 
+            <div class="dropdown-menu mr-4">
+                <a  class="dropdown-item" href="{{ route('delete', $post) }}">Delete</a>
+              
+            </div>
+            <!-- Basic dropdown -->
+
+        </div>
           <div class="media-body">
             <div class="user">
               <a href="{{ route('users', $user) }}">

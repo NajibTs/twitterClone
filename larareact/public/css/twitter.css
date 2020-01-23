@@ -92,3 +92,12 @@ ul.twPc-Arrange {
     text-transform: uppercase;
     transition: color 0.15s ease-in-out 0s;
 }
+.hover:hover{
+    color: #00acee;
+}
+
+
+body{
+background: url('../images/twitter.svg') no-repeat;
+
+}
