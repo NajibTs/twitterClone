@@ -70302,7 +70302,11 @@ function (_Component) {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-3"
+        className: "",
+        style: {
+          position: "fixed",
+          paddingRight: "80%"
+        }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -70331,7 +70335,7 @@ function (_Component) {
         className: " hover fas fa-home"
       }), "Home"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, "  ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "hover",
-        href: "#",
+        href: "/users/jawadox",
         style: {
           fontFamily: "Montserrat, sans-serif",
           fontWeight: "bold",
@@ -70622,6 +70626,9 @@ function (_Component) {
           images = _this$props$post.images,
           videos = _this$props$post.videos;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: {
+          border: "1px solid grey"
+        },
         key: id,
         className: "media"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -70647,13 +70654,21 @@ function (_Component) {
         },
         src: "images/".concat(images),
         alt: ""
-      }), !videos ? null : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("iframe", {
+      }), !videos ? null : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("video", {
+        frameBorder: "0",
+        className: "mr-4 d-block",
         style: {
-          display: "block"
+          height: "280px",
+          width: "95%"
         },
+        "class": "video-fluid z-depth-1",
+        loop: true,
+        controls: true,
+        muted: true
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("source", {
         src: "/storage/videos/".concat(videos),
-        frameBorder: "0"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "video/mp4"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "mb-4 btn btn-success",
         onClick: this.props.getcomment,
         "data-toggle": "modal",
@@ -70722,7 +70737,11 @@ function (_Component) {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-3"
+        className: "",
+        style: {
+          position: "fixed",
+          paddingLeft: "60%"
+        }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -70734,6 +70753,21 @@ function (_Component) {
         },
         className: "card-header"
       }, "Trends for you"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "panel-body"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        style: {
+          marginLeft: "5%"
+        },
+        className: "list-unstyled"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: "#"
+      }, "#Maroc")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: "#"
+      }, "#Afrique")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: "#"
+      }, "#Casablanca")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: "#"
+      }, "#3WA")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
       })));
     }

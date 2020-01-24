@@ -5,7 +5,7 @@ export default class RenderPost extends Component {
     render() {
         const {id, user, humanCreatedAt, body, images, videos} = this.props.post
         return (
-            <div key={id} className="media">
+            <div style={{border:"1px solid grey"}}  key={id} className="media">
                 <div  className="media-left">
                     <img src={user.avatar} className="media-object mr-2" />
                 </div>
@@ -21,11 +21,20 @@ export default class RenderPost extends Component {
                     <p style={{fontFamily:"Arial"}} >{body}</p>
                     <img style={{width:"400px",display:"block", paddingBottom:"10px"}} src={`images/${images}`} alt=""/>
 
-                    {  !videos ?
+                    {/* {  !videos ?
                         null :
-                        <iframe style={{display:"block"}} src={`/storage/videos/${videos}`} frameBorder="0"></iframe>
+                        <video style={{display:"block"}} src={`/storage/videos/${videos}`} frameBorder="0"></video>
                         
-                    } 
+                    }  */}
+
+                    {!videos ? 
+                        null :
+                        <video frameBorder="0" className="mr-4 d-block" style={{height: "280px",width:"95%"}} class="video-fluid z-depth-1" loop controls muted>
+                            <source src={`/storage/videos/${videos}`} type="video/mp4" />
+                        </video>
+                        }
+
+
 
                     <button  className="mb-4 btn btn-success" onClick={this.props.getcomment}  data-toggle="modal" data-target={'#exampleModalLong'+id}><i class="fas fa-comment"></i></button> 
                                                 

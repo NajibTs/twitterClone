@@ -32,7 +32,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" style="position:fixed; z-index:1; width:100%">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img width="70" src="{{asset('https://www.teamworld.it/wp-content/uploads/2016/12/twitter-logo-300x194.jpg')}}" />

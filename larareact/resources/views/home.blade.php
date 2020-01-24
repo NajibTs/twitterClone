@@ -3,8 +3,8 @@
 @section('content')
 <div class="container">
 
-  <div class="col-md-12">
-    <div id="root"></div>
+  <div class="">
+    <div id="root" style="margin-top:5%"></div>
   </div>
 
   {{-- <div class="col-md-6" style="padding-top:100px;margin-top:-24px;">
