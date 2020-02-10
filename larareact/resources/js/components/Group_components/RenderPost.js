@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export default class RenderPost extends Component {
+
     render() {
+
+
         const {id, user, humanCreatedAt, body, images, videos} = this.props.post
         return (
-            <div style={{border:"1px solid grey"}}  key={id} className="media">
+            <div key={id} className="media">
                 <div  className="media-left">
                     <img src={user.avatar} className="media-object mr-2" />
                 </div>
-                <div  className="media-body">
+                <div   className="media-body">
                     <div className="user">
                         <a href={`/users/${user.username}`}>
                             <b>{user.username}</b>
@@ -37,7 +40,9 @@ export default class RenderPost extends Component {
 
 
                     <button  className="mb-4 btn btn-success" onClick={this.props.getcomment}  data-toggle="modal" data-target={'#exampleModalLong'+id}><i class="fas fa-comment"></i></button> 
-                                                
+
+                    <button style={{fontSize:"30px", border:"none", marginBottom:"5px"}} className="b" onClick={this.props.toggle}>♡</button>
+                                             
             </div>
         </div>
         )
@@ -48,7 +53,11 @@ export default class RenderPost extends Component {
 RenderPost.PropTypes = {
 
     getcomment:PropTypes.func.isRequired,
+    toggle:PropTypes.func.isRequired,
     post:PropTypes.object.isRequired,
    
    }
+
+
+
    

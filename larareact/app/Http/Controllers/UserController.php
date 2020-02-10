@@ -22,4 +22,31 @@ class UserController extends Controller {
 		}
 		return redirect()->back();
 	}
+	public function search(Request $request) {
+		$search = $request->searches;
+		// dd($search);
+		if ($search==null || $search=='') {
+			return back();
+		} else {
+			$users = USER::where('username','LIKE',"%$search%")
+			->orderBy("id","desc")->get();
+			// dd($users);
+			$countResult = $users->count();
+			$retVal = ($countResult > 0 ) ? 
+			[
+				"success"=>true,
+				"users"=>$users,
+				"count"=>$countResult
+			] : 
+			[
+				"success"=>false,
+				"noResult"=>"Sorry, No Result"
+			] ;
+			return response()->json($retVal);
+		}
+		
+
+
+
+	}
 }

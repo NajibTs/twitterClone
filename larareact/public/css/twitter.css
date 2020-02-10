@@ -98,7 +98,8 @@ ul.twPc-Arrange {
 
 
 body{
-background: url('../images/twitter.svg') no-repeat fixed ;
+/* background: url('../images/twitter.svg')  fixed ; */
+background-color: #F8FAFC;
 
 
 }

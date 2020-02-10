@@ -69739,6 +69739,8 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./components/index */ "./resources/js/components/index.js");
 
+__webpack_require__(/*! ./components/searchIndex */ "./resources/js/components/searchIndex.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -70064,6 +70066,21 @@ function (_Component) {
       });
     }
   }, {
+    key: "toggle",
+    value: function toggle() {
+      var whiteHeart = "\u2661"; // const blackHeart = '\u2665';
+
+      var blackHeart = "\u2764\uFE0F";
+      var like = document.querySelector('.b').textContent;
+
+      if (like == whiteHeart) {
+        document.querySelector('.b').textContent = blackHeart;
+        console.log(like);
+      } else {
+        document.querySelector('.b').textContent = whiteHeart;
+      }
+    }
+  }, {
     key: "renderPosts",
     value: function renderPosts() {
       var _this9 = this;
@@ -70071,6 +70088,7 @@ function (_Component) {
       return this.state.posts.map(function (post) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Group_components_RenderPost__WEBPACK_IMPORTED_MODULE_5__["default"], {
           getcomment: _this9.getcomment.bind(_this9, post.id),
+          toggle: _this9.toggle.bind(_this9),
           post: post
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "modal fade",
@@ -70173,6 +70191,165 @@ function (_Component) {
   }]);
 
   return App;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/AppSearch.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/AppSearch.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AppSearch; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+var AppSearch =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(AppSearch, _Component);
+
+  function AppSearch(props) {
+    var _this;
+
+    _classCallCheck(this, AppSearch);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(AppSearch).call(this, props));
+    _this.state = {
+      users: [],
+      noresult: String,
+      count: Number,
+      bodysearch: String
+    };
+    return _this;
+  }
+
+  _createClass(AppSearch, [{
+    key: "searchChange",
+    value: function searchChange(e) {
+      var _this2 = this;
+
+      this.setState({
+        bodysearch: e.target.value
+      });
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/search', {
+        searches: this.state.bodysearch
+      }, {
+        headers: {
+          "Content-type": "application/json"
+        }
+      }).then(function (response) {
+        // console
+        console.log('from handle submit', response); // set state
+
+        _this2.setState({
+          users: response.data.users,
+          count: response.data.count,
+          noresult: response.data.noResult
+        });
+      });
+    }
+  }, {
+    key: "searchSubmit",
+    value: function searchSubmit(e) {
+      var _this3 = this;
+
+      e.preventDefault();
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/search', {
+        searches: this.state.bodysearch
+      }, {
+        headers: {
+          "Content-type": "application/json"
+        }
+      }).then(function (response) {
+        // console
+        console.log('from handle submit', response); // set state
+
+        _this3.setState({
+          users: response.data.users,
+          count: response.data.count,
+          noresult: response.data.noResult
+        });
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.searchSubmit.bind(this),
+        className: "form-inline"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: "",
+        type: "submit"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        "class": "fas fa-search",
+        "aria-hidden": "true"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        onChange: this.searchChange.bind(this),
+        value: this.state.bodysearch,
+        className: "form-control form-control-sm ml-3 w-75",
+        type: "text",
+        placeholder: "Search",
+        "aria-label": "Search"
+      })), this.state.bodysearch ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "bg-white mt-1",
+        style: {
+          position: "fixed",
+          width: "17.3%"
+        }
+      }, this.state.count > 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "bg-white p-2"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "text-success"
+      }, this.state.count, " Result"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "alert"
+      }, this.state.users.map(function (user) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          style: {
+            width: "30px",
+            marginRight: "10px"
+          },
+          src: user.avatar
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+          href: "/users/".concat(user.username)
+        }, user.username));
+      }))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "rounded p-2 w-100"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "text-danger"
+      }, this.state.noresult))) : null);
+    }
+  }]);
+
+  return AppSearch;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 
@@ -70305,7 +70482,7 @@ function (_Component) {
         className: "",
         style: {
           position: "fixed",
-          paddingRight: "80%"
+          paddingRight: "61%"
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card"
@@ -70626,9 +70803,6 @@ function (_Component) {
           images = _this$props$post.images,
           videos = _this$props$post.videos;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        style: {
-          border: "1px solid grey"
-        },
         key: id,
         className: "media"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -70675,7 +70849,15 @@ function (_Component) {
         "data-target": '#exampleModalLong' + id
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         "class": "fas fa-comment"
-      }))));
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        style: {
+          fontSize: "30px",
+          border: "none",
+          marginBottom: "5px"
+        },
+        className: "b",
+        onClick: this.props.toggle
+      }, "\u2661")));
     }
   }]);
 
@@ -70685,6 +70867,7 @@ function (_Component) {
 
 RenderPost.PropTypes = {
   getcomment: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  toggle: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
   post: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object.isRequired
 };
 
@@ -70740,9 +70923,13 @@ function (_Component) {
         className: "",
         style: {
           position: "fixed",
-          paddingLeft: "60%"
+          marginLeft: "30%",
+          width: "20%"
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: {
+          marginLeft: "9%"
+        },
         className: "card"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         style: {
@@ -70756,16 +70943,33 @@ function (_Component) {
         className: "panel-body"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         style: {
-          marginLeft: "5%"
+          marginLeft: "5%",
+          marginTop: "5px"
         },
         className: "list-unstyled"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        style: {
+          textDecoration: "none",
+          fontFamily: "Montserrat , sans-serif"
+        },
         href: "#"
       }, "#Maroc")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        style: {
+          textDecoration: "none",
+          fontFamily: "Montserrat , sans-serif"
+        },
         href: "#"
       }, "#Afrique")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        style: {
+          textDecoration: "none",
+          fontFamily: "Montserrat , sans-serif"
+        },
         href: "#"
       }, "#Casablanca")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        style: {
+          textDecoration: "none",
+          fontFamily: "Montserrat , sans-serif"
+        },
         href: "#"
       }, "#3WA")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
@@ -70800,6 +71004,30 @@ __webpack_require__.r(__webpack_exports__);
 
 if (document.getElementById('root')) {
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_App__WEBPACK_IMPORTED_MODULE_2__["default"], null), document.getElementById('root'));
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/searchIndex.js":
+/*!************************************************!*\
+  !*** ./resources/js/components/searchIndex.js ***!
+  \************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _AppSearch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AppSearch */ "./resources/js/components/AppSearch.js");
+
+
+
+
+if (document.getElementById("search")) {
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AppSearch__WEBPACK_IMPORTED_MODULE_2__["default"], null), document.getElementById("search"));
 }
 
 /***/ }),

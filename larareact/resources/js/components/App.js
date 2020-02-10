@@ -186,11 +186,29 @@ fileUpload(e) {
         })
         
     }    
+
+    toggle(){
+
+        const whiteHeart = '\u2661';
+// const blackHeart = '\u2665';
+const blackHeart = '\u2764\uFE0F';
+
+  const like = document.querySelector('.b').textContent;
+  if(like==whiteHeart) {
+    document.querySelector('.b').textContent = blackHeart;
+    console.log(like)
+  } else {
+    document.querySelector('.b').textContent = whiteHeart;
+  }
+
+    }
+
     renderPosts() {
         return this.state.posts.map(post => (
             <div>
             <RenderPost
             getcomment={this.getcomment.bind(this, post.id)}
+            toggle={this.toggle.bind(this)}
             post={post}
             />
 
